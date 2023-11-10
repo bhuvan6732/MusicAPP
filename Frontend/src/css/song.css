@@ -1,0 +1,88 @@
+.song-container {
+  background-color: rgb(226, 218, 218);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 500px;
+  max-height: 30vh;
+  background-size: cover; /* Adjust as needed */
+  background-position: center;
+  width: 100%;
+}
+.song-container-parent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.song-name-container {
+  width: 100%;
+}
+.song-name-player {
+  padding: 10px;
+  border-radius: 10px;
+  max-height: 3vh;
+  color: black;
+  font-size: 20px;
+  background-color: hsla(0, 100%, 99%, 0.729);
+  overflow-y: auto;
+}
+
+.song-author {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  color: red;
+  font-size: 20px;
+  background-color: hsla(0, 100%, 99%, 0.729);
+}
+
+.player-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song {
+  margin: 2px;
+  padding: 10px;
+  border-radius: 10px;
+  color: rgb(1, 0, 0);
+  background-color: hsla(0, 5%, 63%, 0.729);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.input {
+  color: red;
+  background-color: black;
+}
+
+.search {
+  margin: 2vh;
+}
+
+.playlist-list {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.song-name {
+  color: rgb(1, 0, 0);
+  background-color: hsla(0, 5%, 63%, 0);
+}
+.url-input {
+  margin: 2vh;
+}
+
+.adder-formats{
+    max-height: 20vh;
+    overflow-y: auto;
+}
