@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentSong: localStorage.getItem("currentSong") || 0,
+  currentSong: parseInt(localStorage.getItem("currentSong")) || 0,
   songs: JSON.parse(localStorage.getItem("songs")) || [],
 };
 
@@ -12,8 +12,10 @@ const playlist = createSlice({
     playNext: (state) => {
       if (state.currentSong + 1 < state.songs.length) {
         state.currentSong++;
+        localStorage.setItem("songs", JSON.stringify(state.songs));
       } else {
         state.currentSong = 0;
+        localStorage.setItem("songs", JSON.stringify(state.songs));
       }
     },
     appendSong: (state, action) => {
@@ -24,12 +26,26 @@ const playlist = createSlice({
       state.currentSong = action.payload;
       localStorage.setItem("currentSong", JSON.stringify(state.currentSong));
     },
+    addAll:(state,action)=>{
+      state.songs= state.songs.concat(action.payload);
+      localStorage.setItem('songs',JSON.stringify(state.songs));
+    },
     removeSong: (state, action) => {
-      state.currentSong--;
-      state.songs.splice(action.payload, 1);
+      if (state.currentSong >= action.payload) {
+        state.currentSong - 1 > 0
+          ? state.currentSong--
+          : state.songs.length > 0
+          ? (state.currentSong = 0)
+          : (state.currentSong = -1);
+        localStorage.setItem("currentSong", JSON.stringify(state.currentSong));
+        state.songs.splice(action.payload, 1);
 
-      localStorage.setItem("currentSong", JSON.stringify(state.currentSong));
-      localStorage.setItem("songs", JSON.stringify(state.songs));
+        localStorage.setItem("songs", JSON.stringify(state.songs));
+      } else {
+        localStorage.setItem("currentSong", JSON.stringify(state.currentSong));
+        state.songs.splice(action.payload, 1);
+        localStorage.setItem("songs", JSON.stringify(state.songs));
+      }
     },
   },
 });

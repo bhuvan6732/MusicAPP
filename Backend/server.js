@@ -20,7 +20,7 @@ app.use("/api/heatbeat", (req, res) => {
 app.use("*", (req, res) => {
   res.status(404).json({
     status: "Failed",
-    message: `cannot find any route in this server for ${req.originalUrls}`,
+    message: `cannot find any route in this server for ${req}`,
   });
 });
 

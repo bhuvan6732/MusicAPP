@@ -1,3 +1,4 @@
+import axios from "axios";
 import "./../css/song.css";
 import React from "react";
 import { useEffect, useRef } from "react";
@@ -6,12 +7,20 @@ const Audio = (props) => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.src = props.song.Url;
-      audioElement.load();
+    try {
+      const audioElement = audioRef.current;
+      if (audioElement) {
+        audioElement.src = props.song.Url;
+        audioElement.load();
+      }
+    } catch (e) {
+      props.handleAudioEnd();
     }
   }, [props.song.Url]);
+
+  const handleAudioError = (handleAudioEnd) => {
+    handleAudioEnd();
+  };
 
   return (
     <div className="song-container-parent">
@@ -28,6 +37,9 @@ const Audio = (props) => {
             preload="auto"
             controls
             ref={audioRef}
+            onError={() => {
+              handleAudioError(props.handleAudioEnd);
+            }}
           >
             <source src={props.song.src} type="audio/mpeg" />
             Your browser does not support the audio element.

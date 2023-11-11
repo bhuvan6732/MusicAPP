@@ -3,7 +3,7 @@ const router = express.Router();
 
 const SongsController = require("./songs.controller");
 
-router.route("/").get(SongsController.apiGetSongs);
+router.route("/playlist").post(SongsController.apiGetSongs);
 router.route("/url").post(SongsController.getSongsByUrl);
 
 

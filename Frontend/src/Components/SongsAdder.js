@@ -25,15 +25,40 @@ const Adder = () => {
         setLoading(false);
         return;
       }
-      const response = await axios.post(
-        `http://localhost:5000/api/v1/songs/url`,
-        {
-          search,
+
+      const playlist = (function extractPlaylistId(link) {
+        const playlistRegex = /(?:list=)([a-zA-Z0-9_-]+)/;
+        const match = link.match(playlistRegex);
+        if (match && match[1]) {
+          return match[1];
+        } else {
+          return false;
         }
-      );
-      if (response) {
-        setLoading(false);
-        dispatch(NewSongsActions.setFormats(response.data));
+      })(search);
+
+      if (!playlist) {
+        const response = await axios.post(
+          `https://spoti5.onrender.com/api/v1/songs/url`,
+          {
+            search,
+          }
+        );
+        if (response) {
+          setLoading(false);
+          console.log(response.data);
+          dispatch(NewSongsActions.setFormats(response.data));
+        }
+      }
+      if (playlist) {
+        const response = await axios.post(
+          "https://spoti5.onrender.com/api/v1/songs/playlist",
+          { playlistlink: playlist }
+        );
+        if (response) {
+          setLoading(false);
+          dispatch(NewSongsActions.setFormats(response.data[0]));
+          console.log(response.data[0]);
+        }
       }
     } catch (e) {
       setLoading(false);
@@ -78,21 +103,35 @@ const Adder = () => {
       </div>
 
       <p className="error">{`${error}`}</p>
+      {AvaliableFromats.length > 0 ? (
+        <button
+          onClick={() => {
+            dispatch(playlistActions.addAll(AvaliableFromats));
+            dispatch(NewSongsActions.clearList());
+          }}
+        >
+          Add All Songs
+        </button>
+      ) : (
+        ""
+      )}
       <div className="adder-formats">
         <ul>
-          {AvaliableFromats.map((element, index) => (
-            <li key={index}>
-              <p> Title: {element.Title}</p>
-              <button
-                onClick={() => {
-                  addClickHandler(element);
-                }}
-              >
-                {" "}
-                {element.Audio_Bitrate}
-              </button>
-            </li>
-          ))}
+          {AvaliableFromats.map((element, index) =>
+            element ? (
+              <li key={index}>
+                <p> Title: {element.Title}</p>
+                <button
+                  onClick={() => {
+                    addClickHandler(element);
+                  }}
+                >
+                  {" "}
+                  {element.Audio_Bitrate}
+                </button>
+              </li>
+            ) : null
+          )}
         </ul>
       </div>
     </>

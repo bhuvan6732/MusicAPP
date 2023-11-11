@@ -23,11 +23,15 @@ const Homepage = () => {
     <>
       <Adder></Adder>
       <Playlist></Playlist>
-      <Audio
-        current={currentSong}
-        handleAudioEnd={handleAudioEnd}
-        song={playlist[currentSong]}
-      ></Audio>
+      {playlist.length > 0 ? (
+        <Audio
+          current={currentSong}
+          handleAudioEnd={handleAudioEnd}
+          song={playlist[currentSong]}
+        ></Audio>
+      ) : (
+        <p>Add songs to play</p>
+      )}
     </>
   );
 };

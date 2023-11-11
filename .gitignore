@@ -1,4 +1,8 @@
 # dependencies
+Frontend/node_modules/
+Frontend/build
+Backend/node_modules/
+Frontend/android
 /node_modules
 /.pnp
 .pnp.js
